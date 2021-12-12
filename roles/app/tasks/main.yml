@@ -1,0 +1,14 @@
+---
+- name: Deploy script
+  hosts: app
+  become: yes
+  tasks:
+  - name: Write srtipt into directory
+    ansible.builtin.copy:
+      src: /files/script.py
+      dest: /var/www/html
+      forse: yes
+      backup: yes
+
+
+
