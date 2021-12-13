@@ -1,14 +1,14 @@
 ---
   - name: Install
     ansible.builtin.apt:
-      name: nginx
+      name: app
       update_cache: yes
       state: present
 
   - name: Write config into the remote machine
     ansible.builtin.copy:
-      src: /templates/app.conf
-      dest: /etc/nginx/sites-available/app
+      src: /files/nginx.conf
+      dest: /etc/nginx/sites-available/nginx.conf
       force: yes
       backup: yes
 
@@ -24,8 +24,8 @@
 
   - name: Symlink on the app config-file
     ansible.builtin.file:
-      src: /etc/nginx/sites-available/app
-      dest: /etc/nginx/sites-enabled/app
+      src: /etc/nginx/sites-available/nginx.conf
+      dest: /etc/nginx/sites-enabled/nginx.conf
       force: yes
       state: link
 

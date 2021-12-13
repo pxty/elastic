@@ -1,0 +1,8 @@
+---
+- name: Install nginx, app, elastic stack
+  become: yes
+
+  roles:
+    - nginx
+    - app
+    - elastic

@@ -10,5 +10,15 @@
       forse: yes
       backup: yes
 
+  - name: Create directory for logs
+    ansible.buitlin.file:
+    path: /var/log/app
+    state: directory
 
+  - name: Create log file
+    ansible.builtin.copy:
+      src: /files/logger.txt
+      dest: /var/log/app/logger.txt
+      forse: yes
+      backup: yes
 
