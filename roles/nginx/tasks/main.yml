@@ -1,33 +1,34 @@
 ---
-  - name: Install
-    ansible.builtin.apt:
-      name: app
-      update_cache: yes
-      state: present
 
-  - name: Write config into the remote machine
-    ansible.builtin.copy:
-      src: /files/nginx.conf
-      dest: /etc/nginx/sites-available/nginx.conf
-      force: yes
-      backup: yes
+- name: Install
+  ansible.builtin.apt:
+    name: nginx
+    update_cache: yes
+    state: present
 
-  - name: clear
-    ansible.builtin.file:
-      path: /etc/nginx/sites-enabled
-      state: absent
+- name: Write config into the remote machine
+  ansible.builtin.copy:
+    src: /files/nginx.conf
+    dest: /etc/nginx/sites-available/nginx.conf
+    force: yes
+    backup: yes
 
-  - name: Create directory
-    ansible.builtin.file:
-      path: /etc/nginx/sites-enabled
-      state: directory
+- name: clear
+  ansible.builtin.file:
+    path: /etc/nginx/sites-enabled
+    state: absent
 
-  - name: Symlink on the app config-file
-    ansible.builtin.file:
-      src: /etc/nginx/sites-available/nginx.conf
-      dest: /etc/nginx/sites-enabled/nginx.conf
-      force: yes
-      state: link
+- name: Create directory
+  ansible.builtin.file:
+    path: /etc/nginx/sites-enabled
+    state: directory
+
+- name: Symlink on the app config-file
+  ansible.builtin.file:
+    src: /etc/nginx/sites-available/nginx.conf
+    dest: /etc/nginx/sites-enabled/nginx.conf
+    force: yes
+    state: link
 
 - name: Start server
   ansible.builtin.service:
