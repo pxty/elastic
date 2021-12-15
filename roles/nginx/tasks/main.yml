@@ -8,7 +8,7 @@
 
 - name: Write config into the remote machine
   ansible.builtin.copy:
-    src: /files/nginx.conf
+    src: ./files/nginx.conf
     dest: /etc/nginx/sites-available/nginx.conf
     force: yes
     backup: yes
@@ -35,3 +35,4 @@
     name: nginx
     enabled: yes
     state: restarted
+

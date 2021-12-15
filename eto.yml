@@ -1,9 +1,15 @@
 ---
-- name: Install nginx, app, elastic stack
-  hosts: all
+- name: Install nginx, app
+  hosts: app
   become: yes
 
   roles:
     - nginx
     - app
+
+- name: Install elk
+  hosts: log
+  become: yes
+
+  roles:
     - elastic

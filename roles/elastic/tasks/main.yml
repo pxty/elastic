@@ -1,0 +1,63 @@
+---
+- name: "Add apt key for elastic"
+  ansible.builtin.apt_key:
+    url: https://artifacts.elastic.co/GPG-KEY-elasticsearch
+    state: present
+- name: "Install apt source"
+  apt:
+    name: apt-transport-https
+    state: present
+- name: "Add ELK repository"
+  apt_repository:
+    repo: deb https://artifacts.elastic.co/packages/7.x/apt stable main
+    state: present
+- name: "Install elastic"
+  apt:
+    name: elasticsearch
+    state: present
+- name: "Install Kibana"
+  apt:
+    name: kibana
+    state: present
+- name: "Install Logstash"
+  apt:
+    name: logstash
+    state: present
+- name: "Install Filebeat"
+  apt:
+    name: filebeat
+    state: present
+- name: "Elastic systemd"
+  systemd:
+    name: elasticsearch
+    state: started
+    enabled: yes
+- name: "Kibana systemd"
+  systemd:
+    name: kibana
+    state: started
+    enabled: yes
+- name: "Prepare configs for logstash"
+  copy:
+    src: ./files/logstash.conf
+    dest: /etc/logstash/conf.d
+    owner: root
+    group: root
+    mode: 0644
+- name: "filebeat.conf"
+  copy:
+    src: ./files/filebeat.yml
+    dest: /etc/filebeat
+    owner: root
+    group: root
+    mode: 0644
+- name: "Logstash systemd"
+  systemd:
+    name: kibana
+    state: restarted
+    enabled: yes
+- name: "Filebeat systemd"
+  systemd:
+    name: kibana
+    state: restarted
+    enabled: yes

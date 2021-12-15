@@ -1,16 +1,26 @@
 filebeat.inputs:
   - type: log
+    enabled: true
     paths:
-      - '/var/log/app/logger.txt'
+      - '/var/log/nginx/*_access.log'
+    fields:
+      type: nginx_access
+    fields_under_root: true
+    scan_frequency: 5s
 
-processors:
-  - decode_json_fields:
-      fields: ["message"]
-      target: "json"
-      overwrite_keys: true
+  - type: log
+    enabled: true
+    paths:
+      - '/var/log/nginx/*_error.log'
+    fields:
+      type: nginx_error
+      fields_under_root: true
+      scan_frequency: 5s
 
 output.logstash:
-  hosts: [logstash:5046]
+  hosts: ["127.0.0.1:5046"]
 
-logging.json: true
-logging.metrics.enabled: false
+xpack.monitoring:
+  enabled: true
+  elasticsearch:
+          hosts: ["http://127.0.0.1:9200"]
