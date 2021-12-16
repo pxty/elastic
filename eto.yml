@@ -5,7 +5,6 @@
 
   roles:
     - nginx
-    - app
 
 - name: Install elk
   hosts: log

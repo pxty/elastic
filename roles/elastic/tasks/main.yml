@@ -1,6 +1,6 @@
 ---
 - name: "Add apt key for elastic"
-  ansible.builtin.apt_key:
+  apt_key:
     url: https://artifacts.elastic.co/GPG-KEY-elasticsearch
     state: present
 - name: "Install apt source"
@@ -40,7 +40,7 @@
 - name: "Prepare configs for logstash"
   copy:
     src: ./files/logstash.conf
-    dest: /etc/logstash/conf.d
+    dest: /etc/logstash
     owner: root
     group: root
     mode: 0644
@@ -53,10 +53,10 @@
     mode: 0644
 - name: "Logstash systemd"
   systemd:
-    name: kibana
+    name: logstash
     state: restarted
     enabled: yes
-- name: "Filebeat systemd"
+- name: "Kibana systemd"
   systemd:
     name: kibana
     state: restarted
