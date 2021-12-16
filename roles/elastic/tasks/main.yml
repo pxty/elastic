@@ -23,18 +23,9 @@
   apt:
     name: logstash
     state: present
-- name: "Install Filebeat"
-  apt:
-    name: filebeat
-    state: present
 - name: "Elastic systemd"
   systemd:
     name: elasticsearch
-    state: started
-    enabled: yes
-- name: "Kibana systemd"
-  systemd:
-    name: kibana
     state: started
     enabled: yes
 - name: "Prepare configs for logstash"
@@ -44,18 +35,15 @@
     owner: root
     group: root
     mode: 0644
-- name: "filebeat.conf"
-  copy:
-    src: ./files/filebeat.yml
-    dest: /etc/filebeat
-    owner: root
-    group: root
-    mode: 0644
 - name: "Logstash systemd"
   systemd:
     name: logstash
     state: restarted
     enabled: yes
+- lineinfile:
+    path: "/etc/kibana/kibana.yml"
+    line: 'server.host: "0.0.0.0"'
+
 - name: "Kibana systemd"
   systemd:
     name: kibana

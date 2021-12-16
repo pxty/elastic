@@ -29,13 +29,14 @@
     force: yes
     state: link
 
+- lineinfile:
+    path: /etc/hosts
+    line: '10.2.0.22 logstash'
+
 - name: Start server
   service:
     name: nginx
     enabled: yes
     state: restarted
 
-- lineinfile:
-    path: /etc/hosts
-    line: '10.2.0.22 logstash'
 
